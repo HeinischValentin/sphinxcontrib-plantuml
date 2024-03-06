@@ -635,27 +635,17 @@ def _lookup_latex_format(fmt):
 def _latex_adjustbox_options(self, node):
     adjustbox_options = []
     if 'width' in node:
-        if 'scale' in node:
-            w = self.latex_image_length(node['width'], node['scale'])
-        else:
-            w = self.latex_image_length(node['width'])
+        w = self.latex_image_length(node['width'], node.get('scale', 100))
         if w:
             adjustbox_options.append('width=%s' % w)
     if 'height' in node:
-        if 'scale' in node:
-            h = self.latex_image_length(node['height'], node['scale'])
-        else:
-            h = self.latex_image_length(node['height'])
+        h = self.latex_image_length(node['height'], node.get('scale', 100))
         if h:
             adjustbox_options.append('height=%s' % h)
-    if 'scale' in node:
-        if not adjustbox_options:
-            adjustbox_options.append('scale=%s' % (float(node['scale']) / 100.0))
+    if 'scale' in node and not adjustbox_options:
+        adjustbox_options.append('scale=%s' % (float(node['scale']) / 100.0))
     if 'max-width' in node:
-        if 'scale' in node:
-            w = self.latex_image_length(node['max-width'], node['scale'])
-        else:
-            w = self.latex_image_length(node['max-width'])
+        w = self.latex_image_length(node['max-width'], node.get('scale', 100))
         if w:
             adjustbox_options.append('max width=%s' % w)
     return adjustbox_options
